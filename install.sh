@@ -15,7 +15,9 @@ fi
 RPI=$1
 RPIVER=$2
 
-# Fetch some packages version from rpi BINUTILS_VER=$(ssh $RPI ld --version | head -n1 | grep -Po '\d+\.\d+(\.\d+)?')
+# Fetch some packages version from rpi 
+KERNEL_VER=$(ssh $RPI uname r)
+BINUTILS_VER=$(ssh $RPI ld --version | head -n1 | grep -Po '\d+\.\d+(\.\d+)?')
 GCC_VER=$(ssh $RPI gcc --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?' | head -n1)
 LDD_VER=$(ssh $RPI ldd --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?' | head -n1)
 
@@ -23,6 +25,7 @@ LDD_VER=$(ssh $RPI ldd --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?'
 # GCC_VER=10.2.1
 # LDD_VER=2.31
 
+echo "rpi's kernel release: $KERNEL_VER"
 echo "rpi's binutils version: $BINUTILS_VER"
 echo "rpi's gcc version:      $GCC_VER"
 echo "rpi's ldd version:      $LDD_VER"
@@ -73,6 +76,6 @@ esac
 #$XTOOL/bin/ct-ng armv8-rpi3-linux-gnueabihf
 #$XTOOL/bin/ct-ng menuconfig
 
-export PATH="$XTOOL/bin:$PATH"
-export DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
-$XTOOL/bin/ct-ng build -j8
+#export PATH="$XTOOL/bin:$PATH"
+#export DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
+#$XTOOL/bin/ct-ng build -j8

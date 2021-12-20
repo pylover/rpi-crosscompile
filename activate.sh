@@ -66,5 +66,3 @@ function deactivate {
     rename_function xtool_backup_deactivate deactivate
   fi
 }
-
-
