@@ -29,7 +29,7 @@ case "$RPIVER" in
     ;;
 esac
 
-
+export ARCH
 export DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
 export BACKUP_PATH=$PATH
 export BACKUP_PS1=$PS1

@@ -16,7 +16,7 @@ RPI=$1
 RPIVER=$2
 
 # Fetch some packages version from rpi 
-KERNEL_VER=$(ssh $RPI uname r)
+KERNEL_VER=$(ssh $RPI uname -r)
 BINUTILS_VER=$(ssh $RPI ld --version | head -n1 | grep -Po '\d+\.\d+(\.\d+)?')
 GCC_VER=$(ssh $RPI gcc --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?' | head -n1)
 LDD_VER=$(ssh $RPI ldd --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?' | head -n1)
