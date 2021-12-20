@@ -1,6 +1,12 @@
 #! /usr/bin/env bash
 
-RPI=berry
+if [ -z "$1" ]
+  then
+    echo "No argument supplied, please provide the raspberrypi's hostname"
+    echo "Example: ./install.sh myrpi"
+fi
+
+RPI=$1
 
 
 # Fetch some packages version from rpi

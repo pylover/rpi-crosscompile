@@ -1,19 +1,34 @@
 # RPI cross compilation on ubuntu 20.04
 
+This is a simple guide and set of shell scripts to create a cross-compile
+environment for rpi3 on Ubuntu-20 using croostool-ng.
+
+**Warning**: These stuff was made for advanced linux users, (who knows what
+they doing).
+
+This is an automated version of `Ston Preston`'s [guide](https://medium.com/@stonepreston/how-to-cross-compile-a-cmake-c-application-for-the-raspberry-pi-4-on-ubuntu-20-04-bac6735d36df)
+
+First of all clone the repo:
+
+```bash
+git clone git@github.com:pylover/rpi-crosscompile.git
+cd rpi-crosscompile
+```
+
 ## Prepare RPI
 
 Download and install the latest RasoberryPi OS (raspbian) from 
-(here)[https://www.raspberrypi.com/software/operating-systems].
+[here](https://www.raspberrypi.com/software/operating-systems).
 
 Mount the mmc boot volume and add `enable_uart` into /boot/config.txt
 (optional).
 
 Boot rpi and use `raspi-config` to:
 
-- configure Wifi connection
-- enable `ssh`.
-- extend filesystem
-- disable wifi power saving
+- Configure Wifi connection
+- Enable `ssh`.
+- Extend filesystem
+- Disable wifi power saving
 
 Fix the locale file: /etc/default/locale
 
@@ -36,11 +51,27 @@ apt install vim git python3-pip python3-dev \
 ```
 
 Make all symlinks relative
+
 ```bash
 sudo symlinks -rc /.
 ```
 
-Save this information for the later:
+Edit the ubuntu machine's ssh config file (`~/.ssh/config`) to access you rpi 
+by name instead of ip address.
+
+```bash
+Host myrpi
+  HostName 192.168.1.2  # Your rpi's IP address
+```
+
+Enable password-less authentication by copying your SSH public key into
+the rpi.
+
+```bash
+ssh-copy-id myrpi
+```
+
+Finally, save this information for the later:
 
 ```bash
 uname -a            # Linux pinky 5.10.83+ #1499 Tue Dec 7 14:04:21 GMT 2021 armv6l GNU/Linux
@@ -49,15 +80,49 @@ gcc --version       # 8.3.0
 ldd --version		    # 2.28
 ```
 
-## Prepare the ubuntu machine
-
-edit the install.sh ...
+## Install, configure and build the crosstool-ng
 
 Then run it
 ```bash
-./install.sh
+./install.sh myrpi
 ```
 
+Now activate you env by 
+```bash
+source activate.sh
+```
+
+You may run `deativate` any time to get back to normal shell.
 
 
+Before build the toolchain, you need to enter some versions mannualy:
+```bash
+ct-ng menuconfig
+```
+
+At the main menu, select the operating system option and change the version 
+of Linux to the closest version to what you found on the Pi earlier. In my 
+case I selected 5.10.79. 
+
+Exit back to the main menu and select the Binary utilties submenu. Change 
+the version of binary utils to whatever was on your Pi, 2.31.1 for me.
+
+Exit back to the main menu again and select the C-library submenu. Change the 
+version of glibc to the version from your Pi (2.28 for me.)
+
+Now exit back to the main menu for the last time and select the C-compiler 
+settings. Change the version of gcc to the version on your 
+Pi (8.3.0 in my case.) 
+
+Now, build the toolchain using:
+
+```bash
+./build.sh -j4    # The number of processors(cores)
+```
+
+### fsroot
+
+```bash
+./fsroot.sh myrpi
+```
 
