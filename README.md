@@ -126,3 +126,12 @@ Now, build the toolchain using:
 ./fsroot.sh myrpi
 ```
 
+### Test it
+
+```bash
+armv8-rpi3-linux-gnueabihf-gcc -o hello hello.c
+scp hello myrpi:
+ssh myrpi ./hello
+```
+
+
