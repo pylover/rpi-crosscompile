@@ -6,9 +6,9 @@ if [ -z "$1" ]
     echo "Example: ./fsroot.sh myrpi"
 fi
 
-RPI=berry
+RPI=$1
 XBUILD=$(readlink -f build/xbuild)
-cd $XBUILD/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/sysroot
+cd $XBUILD/$ARCH/$ARCH/sysroot
 
 rsync -vrzLR --safe-links root@$RPI:/lib/ ./
 rsync -vrzLR --safe-links root@$RPI:/usr/include/ ./

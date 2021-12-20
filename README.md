@@ -25,10 +25,14 @@ Mount the mmc boot volume and add `enable_uart` into /boot/config.txt
 
 Boot rpi and use `raspi-config` to:
 
-- Configure Wifi connection
+- Configure Wifi connection using.
 - Enable `ssh`.
 - Extend filesystem
-- Disable wifi power saving
+
+
+Disable [wifi power
+saving](https://raspberrypi.stackexchange.com/a/96644/24752)
+
 
 Fix the locale file: /etc/default/locale
 
@@ -43,6 +47,9 @@ LC_ALL=en_US.UTF-8
 Install some packages:
 
 ```bash
+apt update
+apt dist-upgrade
+rpi-update
 apt install vim git python3-pip python3-dev \
   build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev \
   libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev \
@@ -97,7 +104,9 @@ You may run `deativate` any time to get back to normal shell.
 
 Before build the toolchain, you need to enter some versions mannualy:
 ```bash
+cd build/xbuild
 ct-ng menuconfig
+cd ../..
 ```
 
 At the main menu, select the operating system option and change the version 

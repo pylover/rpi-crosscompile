@@ -15,9 +15,7 @@ fi
 RPI=$1
 RPIVER=$2
 
-
-# Fetch some packages version from rpi
-BINUTILS_VER=$(ssh $RPI ld --version | head -n1 | grep -Po '\d+\.\d+(\.\d+)?')
+# Fetch some packages version from rpi BINUTILS_VER=$(ssh $RPI ld --version | head -n1 | grep -Po '\d+\.\d+(\.\d+)?')
 GCC_VER=$(ssh $RPI gcc --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?' | head -n1)
 LDD_VER=$(ssh $RPI ldd --version | head -n1 | grep -Po '(?<=\s)\d+\.\d+(\.\d+)?' | head -n1)
 
@@ -33,6 +31,7 @@ echo "rpi's ldd version:      $LDD_VER"
 mkdir -p build
 cd build
 
+# Preserve the RaspberryPi's version for the later.
 echo $RPIVER > rpiver
 
 sudo apt install -y gcc g++ gperf bison flex texinfo help2man make \
@@ -70,6 +69,7 @@ case "$RPIVER" in
     cp ../../rpi3-config .config
     ;;
 esac
+
 #$XTOOL/bin/ct-ng armv8-rpi3-linux-gnueabihf
 #$XTOOL/bin/ct-ng menuconfig
 
