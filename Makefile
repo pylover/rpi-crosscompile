@@ -1,4 +1,5 @@
 RPI = berry
+PYVER = 3.8
 
 .PHONY: install
 install:
@@ -8,9 +9,13 @@ install:
 build:
 	./build.sh
 
-.PHONY: build
-build:
+.PHONY: fsroot
+fsroot:
 	./fsroot.sh $(RPI)
+
+.PHONY: cpython
+cpython:
+	./cpython.sh $(PYVER)
 
 .PHONY: clean
 clean:

@@ -134,4 +134,16 @@ scp hello myrpi:
 ssh myrpi ./hello
 ```
 
+## CPython
 
+```bash
+./cpython.sh 3.8  # Change 3.8 by any cpython version.
+```
+
+You may find the Python's install files at `build/cpython/install`.
+
+Use ssh to copy files into target rpi:
+```bash
+scp -r build/cpython/install/* myrpi:/usr/local
+ssh root@myrpi ldconfig
+```
