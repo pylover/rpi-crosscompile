@@ -1,0 +1,50 @@
+# https://medium.com/@stonepreston/how-to-cross-compile-a-cmake-c-application-for-the-raspberry-pi-4-on-ubuntu-20-04-bac6735d36df
+
+sudo apt install -y gcc g++ gperf bison flex texinfo help2man make libncurses5-dev python3-dev autoconf automake libtool libtool-bin gawk wget bzip2 xz-utils unzip patch libstdc++6 rsync git
+wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.24.0.tar.xz
+tar -xvf crosstool-ng-1.24.0.tar.xz
+cd crosstool-ng-1.24.0
+./configure
+make -j4
+sudo make install
+
+# On rpi
+apt install binutils-source
+ls /usr/src/binutils/patches/
+uname -a            # Linux pinky 5.10.83+ #1499 Tue Dec 7 14:04:21 GMT 2021 armv6l GNU/Linux
+ld --version        # 2.31.1
+gcc --version       # 8.3.0
+ldd --version		# 2.28
+sudo apt install symlinks
+sudo symlinks -rc /.
+# ipr no
+
+mkdir rpixc
+cd rpixc/
+mkdir src
+mkdir -p patches/binutils/2.31.1/
+scp pinky:/usr/src/binutils/patches/129_multiarch_libpath.patch patches/binutils/2.31.1/
+ct-ng list-samples
+ct-ng armv8-rpi3-linux-gnueabihf
+ct-ng menuconfig
+export DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
+ct-ng build 
+
+# Test with
+armv6-rpi-linux-gnueabi/armv6-rpi-linux-gnueabi/bin/ld --verbose | grep -i search
+
+# fsroot
+cd armv6-rpi-linux-gnueabi/armv6-rpi-linux-gnueabi/sysroot
+
+## Using SSH
+rsync -vrzLR --safe-links root@pinky:/lib/ ./
+rsync -vrzLR --safe-links root@pinky:/usr/include/ ./
+rsync -vrzLR --safe-links root@pinky:/usr/lib/ ./
+
+## Directly from mmc (sd-card)
+mkdir -p ./lib/
+mkdir -p ./usr/include
+mkdir -p ./usr/lib
+rsync -vrL --safe-links /media/vahid/rootfs/lib/ ./lib/
+rsync -vrL --safe-links /media/vahid/rootfs/usr/include/ ./usr/include
+rsync -vrL --safe-links /media/vahid/rootfs/usr/lib/ ./usr/lib
