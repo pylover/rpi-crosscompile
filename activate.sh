@@ -18,7 +18,7 @@ HERE=`dirname "$(readlink -f "$BASH_SOURCE")"`
 
 case "$RPIVER" in 
   "rpi1" )
-    ARCH=armv6-rpi1-linux-gnueabihf
+    ARCH=armv6-rpi-linux-gnueabi
     ;;
   "rpi3" )
     ARCH=armv8-rpi3-linux-gnueabihf
