@@ -1,7 +1,7 @@
 # RPI cross compilation on ubuntu 20.04
 
 This is a simple guide and set of shell scripts to create a cross-compile
-environment for rpi3 on Ubuntu-20 using croostool-ng.
+environment for rpi3 and rpi1 on Ubuntu-20 using croostool-ng.
 
 **Warning**: These stuff was made for advanced linux users, (who knows what
 they doing).
@@ -84,10 +84,10 @@ ldd --version		    # 2.28
 
 Then run it
 ```bash
-./install.sh myrpi
+./install.sh myrpi rpi3   # Or rpi1
 ```
 
-Now activate you env by 
+Now activate your env by 
 ```bash
 source activate.sh
 ```
