@@ -1,7 +1,7 @@
 
 if [ $0 = $BASH_SOURCE ]; then
 	echo "Can not run this script, try to source it"
-	exit 1
+	return 1
 fi
 
 if [ ! -z $BACKUP_PATH ]; then
@@ -12,15 +12,30 @@ fi
 
 XTOOL=$(readlink -f build/xtool)
 XBUILD=$(readlink -f build/xbuild)
-
+RPIVER=$(cat build/rpiver)
 
 HERE=`dirname "$(readlink -f "$BASH_SOURCE")"`
+
+case "$RPIVER" in 
+  "rpi1" )
+    ARCH=armv6-rpi1-linux-gnueabihf
+    ;;
+  "rpi3" )
+    ARCH=armv8-rpi3-linux-gnueabihf
+    ;;
+  * )
+    echo "Invalid build/rpiver"
+    return 1
+    ;;
+esac
+
+
 export DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
 export BACKUP_PATH=$PATH
 export BACKUP_PS1=$PS1
-export ENV_TITLE="rpi-xtool"
-export PATH="$XBUILD/armv8-rpi3-linux-gnueabihf/bin:$PATH"
-export PATH="$XBUILD/armv8-rpi3-linux-gnueabihf/armv8-rpi3-linux-gnueabihf/bin:$PATH"
+export ENV_TITLE="$RPIVER-xtool"
+export PATH="$XBUILD/$ARCH/bin:$PATH"
+export PATH="$XBUILD/$ARCH/$ARCH/bin:$PATH"
 export PATH="$XTOOL/bin:$PATH"
 export PS1="($ENV_TITLE) $PS1"
 
@@ -45,6 +60,7 @@ function deactivate {
   unset BACKUP_PATH
   unset BACKUP_PS1
   unset ENV_TITLE
+  unset ARCH
   unset -f deactivate
   if [[ $(type -t xtool_backup_deactivate) == function ]]; then
     rename_function xtool_backup_deactivate deactivate

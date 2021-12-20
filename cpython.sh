@@ -16,8 +16,6 @@ mkdir -p $INSTALL
 
 git clone git@github.com:python/cpython.git -b$PYVER --depth=1
 
-ARCH=armv8-rpi3-linux-gnueabihf
-
 export CC=$ARCH-gcc 
 export CXX=$ARCH-g++
 export AR=$ARCH-ar

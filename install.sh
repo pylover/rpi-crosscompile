@@ -3,10 +3,17 @@
 if [ -z "$1" ]
   then
     echo "No argument supplied, please provide the raspberrypi's hostname"
-    echo "Example: ./install.sh myrpi"
+    echo "Example: ./install.sh myrpi rpi3"
+fi
+
+if [ -z "$2" ]
+  then
+    echo "Insufficient arguments, please provide the raspberrypi's version"
+    echo "Example: ./install.sh myrpi rpi1"
 fi
 
 RPI=$1
+RPIVER=$2
 
 
 # Fetch some packages version from rpi
@@ -25,6 +32,8 @@ echo "rpi's ldd version:      $LDD_VER"
 # Create a directory for build
 mkdir -p build
 cd build
+
+echo $RPIVER > rpiver
 
 sudo apt install -y gcc g++ gperf bison flex texinfo help2man make \
   libncurses5-dev python3-dev autoconf automake libtool libtool-bin \
@@ -52,9 +61,17 @@ cd $CTBUILD
 mkdir -p patches/binutils/$BINUTILS_VER
 scp $RPI:/usr/src/binutils/patches/129_multiarch_libpath.patch \
   patches/binutils/$BINUTILS_VER
+
+case "$RPIVER" in 
+  "rpi1" )
+    cp ../../rpi1-config .config
+    ;;
+  "rpi3" )
+    cp ../../rpi3-config .config
+    ;;
+esac
 #$XTOOL/bin/ct-ng armv8-rpi3-linux-gnueabihf
 #$XTOOL/bin/ct-ng menuconfig
-cp ../../rpi3-config .config
 
 export PATH="$XTOOL/bin:$PATH"
 export DEB_TARGET_MULTIARCH=arm-linux-gnueabihf
