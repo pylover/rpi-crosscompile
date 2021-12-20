@@ -76,6 +76,7 @@ the rpi.
 
 ```bash
 ssh-copy-id myrpi
+ssh-copy-id root@myrpi
 ```
 
 Finally, save this information for the later:

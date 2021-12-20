@@ -1,4 +1,6 @@
 
+set -e
+
 if [ $0 = $BASH_SOURCE ]; then
 	echo "Can not run this script, try to source it"
 	return 1

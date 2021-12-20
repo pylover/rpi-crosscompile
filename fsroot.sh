@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+set -e
+
 if [ -z "$1" ]
   then
     echo "No argument supplied, please provide the raspberrypi's hostname"
