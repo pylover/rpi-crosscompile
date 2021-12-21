@@ -1,6 +1,4 @@
 
-set -e
-
 if [ $0 = $BASH_SOURCE ]; then
 	echo "Can not run this script, try to source it"
 	return 1
@@ -12,11 +10,11 @@ if [ ! -z $BACKUP_PATH ]; then
 fi
 
 
+HERE=`dirname "$(readlink -f "$BASH_SOURCE")"`
 XTOOL=$(readlink -f build/xtool)
 XBUILD=$(readlink -f build/xbuild)
-RPIVER=$(cat build/rpiver)
+RPIVER=$(cat $HERE/build/rpiver)
 
-HERE=`dirname "$(readlink -f "$BASH_SOURCE")"`
 
 case "$RPIVER" in 
   "rpi1" )
