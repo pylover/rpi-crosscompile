@@ -115,7 +115,9 @@ of Linux to the closest version to what you found on the Pi earlier. In my
 case I selected 5.10.79. 
 
 Exit back to the main menu and select the Binary utilties submenu. Change 
-the version of binary utils to whatever was on your Pi, 2.31.1 for me.
+the version of binary utils to whatever was on your Pi, 2.31.1 for me. In
+order, check the `build/xbuild/patches/binutils/<version>` and ensure the
+`<version>` is exactly what you already configured with `menuconfig`.
 
 Exit back to the main menu again and select the C-library submenu. Change the 
 version of glibc to the version from your Pi (2.28 for me.)
