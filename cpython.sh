@@ -14,7 +14,9 @@ cd build/cpython
 INSTALL=$(readlink -f install)
 mkdir -p $INSTALL
 
-git clone git@github.com:python/cpython.git -b$PYVER --depth=1
+if [ ! -d cpython ]; then
+  git clone git@github.com:python/cpython.git -b$PYVER --depth=1
+fi
 
 export CC=$ARCH-gcc 
 export CXX=$ARCH-g++
