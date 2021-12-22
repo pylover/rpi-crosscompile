@@ -12,7 +12,7 @@ fi
 
 HERE=`dirname "$(readlink -f "$BASH_SOURCE")"`
 XTOOL=$HERE/build/xtool
-XBUILD=$HERE/build/xbuild)
+XBUILD=$HERE/build/xbuild
 RPIVER=$(cat $HERE/build/rpiver)
 
 
